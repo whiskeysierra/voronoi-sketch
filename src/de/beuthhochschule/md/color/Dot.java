@@ -1,8 +1,9 @@
 package de.beuthhochschule.md.color;
 
+import static processing.core.PApplet.dist;
+import static processing.core.PApplet.radians;
+import static processing.core.PApplet.sin;
 import processing.core.PApplet;
-
-import static processing.core.PApplet.*;
 
 final class Dot implements Drawable {
     

@@ -3,31 +3,21 @@ package de.beuthhochschule.md.color;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Iterables.all;
 import static com.google.common.collect.Iterables.any;
-import static java.util.Collections.unmodifiableSet;
 
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import java.util.Set;
 
 import processing.core.PApplet;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 
 public final class MainApplet extends PApplet {
 
     private static final long serialVersionUID = 6519493573972998181L;
     
-    private final Set<Dot> dots = Sets.newLinkedHashSet();
-    private final Polygon hull = new Polygon(unmodifiableSet(dots));
+    private final Polygon polygon = new Polygon();
     
-    private final Iterable<Drawable> drawables = Iterables.concat(
-        dots, Collections.singleton(hull)
-    );
-    
-    private final Ordering<Dot> ordering = new DistanceOrdering(this);
+    private final Ordering<Dot> ordering = new MouseDistanceOrdering(this);
     private final Predicate<Dot> inRange = new InRangePredicate(this);
     private final Predicate<Dot> notInRange = not(inRange);
     
@@ -43,30 +33,28 @@ public final class MainApplet extends PApplet {
     @Override
     public void draw() {
         background(255);
-     
-        for (Drawable drawable : drawables) {
-            drawable.draw(this);
-        }
+
+        polygon.draw(this);
         
-        if (dragee == null && any(dots, inRange)) {
+        if (dragee == null && any(polygon, inRange)) {
             cursor(HAND);
         }
     }
     
     @Override
     public void mouseClicked() {
-        if (dots.isEmpty() || all(dots, notInRange)) {
-            dots.add(new Dot(mouseX, mouseY));
+        if (polygon.isEmpty() || all(polygon, notInRange)) {
+            polygon.add(new Dot(mouseX, mouseY));
             System.out.printf("Created dot at (%d, %d)\n", mouseX, mouseY);
         }
     }
 
     @Override
     public void mousePressed() {
-        if (dots.isEmpty()) {
+        if (polygon.isEmpty()) {
             return;
         } else {
-            final Dot closest = ordering.min(dots);
+            final Dot closest = ordering.min(polygon);
             if (inRange.apply(closest)) {
                 System.out.println("Start dragging");
                 this.dragee = closest;
@@ -97,12 +85,12 @@ public final class MainApplet extends PApplet {
     public void keyPressed() {
         switch (key) {
             case DELETE: {
-                if (dots.isEmpty()) {
+                if (polygon.isEmpty()) {
                     break;
                 } else {
-                    final Dot closest = ordering.min(dots);
+                    final Dot closest = ordering.min(polygon);
                     System.out.printf("Removing %s\n", closest);
-                    dots.remove(closest);
+                    polygon.remove(closest);
                     break;
                 }
             }
