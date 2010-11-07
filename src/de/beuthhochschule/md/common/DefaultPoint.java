@@ -1,0 +1,30 @@
+package de.beuthhochschule.md.common;
+
+final class DefaultPoint extends AbstractPoint {
+    
+    private final float x;
+    private final float y;
+    private final float z;
+    
+    DefaultPoint(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    @Override
+    public float x() {
+        return x;
+    }
+
+    @Override
+    public float y() {
+        return y;
+    }
+
+    @Override
+    public float z() {
+        return z;
+    }
+
+}
