@@ -26,4 +26,10 @@ public interface Vector {
     
     float angle(Vector v);
     
+    @Override
+    boolean equals(Object that);
+    
+    @Override
+    int hashCode();
+    
 }

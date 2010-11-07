@@ -36,35 +36,11 @@ public abstract class AbstractPoint implements Point {
     
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Float.floatToIntBits(x());
-        result = prime * result + Float.floatToIntBits(y());
-        result = prime * result + Float.floatToIntBits(z());
-        return result;
+        return Points.hashCode(this);
     }
     @Override
     public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (!(that instanceof Point)) {
-            return false;
-        }
-        final Point other = (Point) that;
-        if (Float.floatToIntBits(x()) != Float.floatToIntBits(other.x())) {
-            return false;
-        }
-        if (Float.floatToIntBits(y()) != Float.floatToIntBits(other.y())) {
-            return false;
-        }
-        if (Float.floatToIntBits(z()) != Float.floatToIntBits(other.z())) {
-            return false;
-        }
-        return true;
+        return Points.equals(this, that);
     }
 
     @Override

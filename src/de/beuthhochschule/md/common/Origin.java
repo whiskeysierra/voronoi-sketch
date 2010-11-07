@@ -4,10 +4,12 @@ import processing.core.PApplet;
 
 import com.google.common.base.Preconditions;
 
-enum Origin implements Point {
+final class Origin implements Point {
 
-    INSTANCE;
-
+    private static final Point INSTANCE = new Origin();
+    
+    private final int hash = Points.hashCode(this);
+    
     @Override
     public float x() {
         return 0;
@@ -42,8 +44,7 @@ enum Origin implements Point {
 
     @Override
     public Vector to(Point point) {
-        Preconditions.checkNotNull(point, "Point");
-        return point.toVector();
+        return Preconditions.checkNotNull(point, "Point").toVector();
     }
 
     @Override
@@ -52,6 +53,23 @@ enum Origin implements Point {
         return new float[] {0, 0};
     }
     
+    @Override
+    public boolean equals(Object that) {
+        return Points.equals(this, that);
+    }
     
+    @Override
+    public int hashCode() {
+        return hash;
+    }
+    
+    @Override
+    public String toString() {
+        return "(x=0.0, y=0.0, z=0.0)";
+    }
+    
+    public static Point getInstance() {
+        return INSTANCE;
+    }
     
 }

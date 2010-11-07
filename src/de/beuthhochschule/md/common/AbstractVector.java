@@ -35,11 +35,13 @@ public abstract class AbstractVector implements Vector {
     
     @Override
     public float magnitude() {
+        // http://en.wikipedia.org/wiki/Dot_product#Geometric_interpretation
         return PApplet.sqrt(dot(this));
     }
     
     @Override
     public Vector normalize() {
+        // http://en.wikipedia.org/wiki/Euclidean_vector#Length
         return scale(1 / magnitude());
     }
     
@@ -62,45 +64,18 @@ public abstract class AbstractVector implements Vector {
     @Override
     public float angle(Vector v) {
         Preconditions.checkNotNull(v, "Vector");
+        // http://en.wikipedia.org/wiki/Dot_product#Geometric_interpretation
         return PApplet.acos(normalize().dot(v.normalize()));
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        long temp;
-        temp = Double.doubleToLongBits(x());
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(y());
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(z());
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        return Vectors.hashCode(this);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof AbstractVector)) {
-            return false;
-        }
-        AbstractVector o = (AbstractVector) obj;
-        if (Double.doubleToLongBits(x()) != Double.doubleToLongBits(o.x())) {
-            return false;
-        }
-        if (Double.doubleToLongBits(y()) != Double.doubleToLongBits(o.y())) {
-            return false;
-        }
-        if (Double.doubleToLongBits(z()) != Double.doubleToLongBits(o.z())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object that) {
+        return Vectors.equals(this, that);
     }
 
     @Override

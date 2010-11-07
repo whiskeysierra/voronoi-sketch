@@ -66,5 +66,15 @@ final class DraggablePoint extends AbstractPoint implements Drawable {
     public float z() {
         return 0;
     }
+    
+    @Override
+    public boolean equals(Object that) {
+        return this == that;
+    }
+    
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
 
 }

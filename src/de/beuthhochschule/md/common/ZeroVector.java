@@ -4,11 +4,16 @@ import processing.core.PApplet;
 
 import com.google.common.base.Preconditions;
 
-enum ZeroVector implements Vector {
+final class ZeroVector implements Vector {
+
+    private static final Vector INSTANCE = new ZeroVector();
     
-    INSTANCE;
+    private ZeroVector() {
+        
+    }
     
     private final float rightAngle = PApplet.acos(0);
+    private final int hash = Vectors.hashCode(this);
 
     @Override
     public float x() {
@@ -52,6 +57,7 @@ enum ZeroVector implements Vector {
 
     @Override
     public Vector normalize() {
+        // TODO exception?
         return this;
     }
 
@@ -73,8 +79,22 @@ enum ZeroVector implements Vector {
     }
     
     @Override
+    public boolean equals(Object that) {
+        return Vectors.equals(this, that);
+    }
+    
+    @Override
+    public int hashCode() {
+        return hash;
+    }
+    
+    @Override
     public String toString() {
-        return "Vectors.zeroVector()";
+        return "(0.0, 0.0, 0.0)";
+    }
+    
+    public static Vector getInstance() {
+        return INSTANCE;
     }
 
 }

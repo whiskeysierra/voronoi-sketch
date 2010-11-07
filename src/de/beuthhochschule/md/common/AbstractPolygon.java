@@ -10,10 +10,9 @@ public abstract class AbstractPolygon implements Polygon {
             return 0;
         } else {
             // http://en.wikipedia.org/wiki/Polygon#Area_and_centroid
-            
             float area = 0;
             
-            final Iterator<Point> iterator = iterator();
+            final Iterator<Point> iterator = counterclockwise().iterator();
             Point last = iterator.next();
             while (iterator.hasNext()) {
                 final Point next = iterator.next();
@@ -30,8 +29,32 @@ public abstract class AbstractPolygon implements Polygon {
         if (isEmpty()) {
             return Points.origin();
         } else {
-            // TODO Auto-generated method stub
-            return null;
+            // http://en.wikipedia.org/wiki/Polygon#Area_and_centroid
+            
+            float area = 0;
+            float x = 0;
+            float y = 0;
+
+            final Iterator<Point> iterator = counterclockwise().iterator();
+            Point last = iterator.next();
+            while (iterator.hasNext()) {
+                final Point next = iterator.next();
+                final float step = last.x() * next.y() - next.x() * last.x();
+                
+                area += step;
+                x += (last.x() + next.x()) * step;
+                y += (last.y() + next.y()) * step;
+                
+                last = next;
+            }
+            
+            area = area / 2;
+            
+            final float factor = 1f / (6f * area);
+            x *= factor;
+            y *= factor;
+            
+            return Points.of(x, y);
         }
     }
     

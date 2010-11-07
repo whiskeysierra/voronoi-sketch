@@ -18,4 +18,10 @@ public interface Point {
     
     float[] coordinates();
     
+    @Override
+    boolean equals(Object that);
+    
+    @Override
+    int hashCode();
+    
 }
