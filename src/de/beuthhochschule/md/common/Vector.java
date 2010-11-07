@@ -14,6 +14,8 @@ public interface Vector {
     
     Vector scale(float factor);
     
+    Vector invert();
+    
     float magnitude();
     
     Vector normalize();

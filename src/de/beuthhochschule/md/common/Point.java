@@ -10,6 +10,8 @@ public interface Point {
     
     Point move(Vector vector);
     
+    Vector toVector();
+    
     float distance(Point point);
     
     Vector to(Point point);

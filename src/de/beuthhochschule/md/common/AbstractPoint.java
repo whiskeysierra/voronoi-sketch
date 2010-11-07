@@ -13,6 +13,11 @@ public abstract class AbstractPoint implements Point {
     }
     
     @Override
+    public Vector toVector() {
+        return Vectors.of(x(), y(), z());
+    }
+    
+    @Override
     public float distance(Point point) {
         Preconditions.checkNotNull(point, "Point");
         return PApplet.dist(x(), y(), z(), point.x(), point.y(), point.z());

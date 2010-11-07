@@ -29,6 +29,11 @@ public abstract class AbstractVector implements Vector {
     }
     
     @Override
+    public Vector invert() {
+        return scale(-1f);
+    }
+    
+    @Override
     public float magnitude() {
         return PApplet.sqrt(dot(this));
     }

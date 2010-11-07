@@ -19,6 +19,10 @@ public final class Points {
         return new DefaultPoint(x, y, z);
     }
     
+    public static Point origin() {
+        return Origin.INSTANCE;
+    }
+    
     public static Point mouseOf(PApplet applet) {
         return new MousePoint(applet);
     }
@@ -38,14 +42,11 @@ public final class Points {
     
     public static float[][] collect(Collection<? extends Point> points) {
         Preconditions.checkNotNull(points, "Points");
-        final float[][] coordinates = new float[points.size()][3];
+        final float[][] coordinates = new float[points.size()][];
         
         int index = 0;
         for (Point point : points) {
-            coordinates[index][0] = point.x();
-            coordinates[index][1] = point.y();
-            coordinates[index][2] = point.z();
-            index++;
+            coordinates[index++] = point.coordinates();
         }
         
         return coordinates;

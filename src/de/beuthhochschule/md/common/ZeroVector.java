@@ -39,6 +39,11 @@ enum ZeroVector implements Vector {
     public Vector scale(float factor) {
         return this;
     }
+    
+    @Override
+    public Vector invert() {
+        return this;
+    }
 
     @Override
     public float magnitude() {
