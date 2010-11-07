@@ -39,17 +39,17 @@ public abstract class AbstractPoint implements Point {
         return result;
     }
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object that) {
+        if (this == that) {
             return true;
         }
-        if (obj == null) {
+        if (that == null) {
             return false;
         }
-        if (!(obj instanceof AbstractPoint)) {
+        if (!(that instanceof Point)) {
             return false;
         }
-        AbstractPoint other = (AbstractPoint) obj;
+        final Point other = (Point) that;
         if (Float.floatToIntBits(x()) != Float.floatToIntBits(other.x())) {
             return false;
         }

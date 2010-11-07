@@ -22,11 +22,11 @@ public final class VoronoiApplet extends PApplet {
 
     private static final long serialVersionUID = 8801481205723603148L;
     
-    private final int yellow = color(255, 255, 0, 50);
-    private final int orange = color(255, 165, 0, 50);
-    private final int red = color(255, 0, 0, 50);
-    private final int purple = color(255, 0, 255, 50);
-    private final int blue = color(0, 0, 255, 50);
+    private final int yellow = color(255, 255, 0);
+    private final int orange = color(255, 165, 0);
+    private final int red = color(255, 0, 0);
+    private final int purple = color(255, 0, 255);
+    private final int blue = color(0, 0, 255);
     
     private final Set<DraggablePoint> points = 
         Sets.newHashSetWithExpectedSize(100);
@@ -47,7 +47,6 @@ public final class VoronoiApplet extends PApplet {
         size(640, 480);
         frameRate(60);
         smooth();
-
     }
     
     @Override
@@ -58,8 +57,7 @@ public final class VoronoiApplet extends PApplet {
         final Voronoi voronoi = new Voronoi(coordinates);
         
         for (MPolygon polygon : voronoi.getRegions()) {
-            final int n = polygon.count();
-            final int color = colorOf(n);
+            final int color = colorOf(polygon);
             fill(color);
             polygon.draw(this);
         }
@@ -73,21 +71,33 @@ public final class VoronoiApplet extends PApplet {
         }
     }
     
-    private int colorOf(int corners) {
-        switch (corners) {
+    private int colorOf(MPolygon polygon) {
+        final float lerpFactor = lerpFactor(polygon);
+        switch (polygon.count()) {
             case 3: {
-                return lerpColor(255, yellow, 1);
+                return lerpColor(yellow, orange, lerpFactor);
             }
             case 4: {
-                return lerpColor(orange, red, 0.5f);
+                return lerpColor(orange, red, lerpFactor);
             }
             case 5: {
-                return lerpColor(red, purple, 0.5f);
+                return lerpColor(red, purple, lerpFactor);
             }
             default: {
-                return lerpColor(purple, blue, 0.5f);
+                return lerpColor(purple, blue, lerpFactor);
             }
         }
+    }
+    
+    private float lerpFactor(MPolygon polygon) {
+        final Set<float[]> coords = Sets.newHashSet(polygon.getCoords());
+        float minY = Float.MAX_VALUE;
+        
+        for (float[] c : coords) {
+            minY = min(minY, c[1]);
+        }
+        
+        return map(minY, 0, height, 0, 1);
     }
 
     private void addPoint(float x, float y) {
@@ -138,7 +148,7 @@ public final class VoronoiApplet extends PApplet {
     @Override
     public void keyPressed() {
         switch (key) {
-            case '+': {
+            case 'n': {
                 addPoint(random(width), random(height));
                 break;
             }

@@ -1,6 +1,5 @@
 package de.beuthhochschule.md.common;
 
-// TODO add constant zero vector
 public final class Vectors {
     
     private Vectors() {

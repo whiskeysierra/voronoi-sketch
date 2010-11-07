@@ -8,7 +8,7 @@ enum ZeroVector implements Vector {
     
     INSTANCE;
     
-    private final float angle = PApplet.acos(0);
+    private final float rightAngle = PApplet.acos(0);
 
     @Override
     public float x() {
@@ -64,7 +64,7 @@ enum ZeroVector implements Vector {
     @Override
     public float angle(Vector v) {
         Preconditions.checkNotNull(v, "Vector");
-        return angle;
+        return rightAngle;
     }
     
     @Override

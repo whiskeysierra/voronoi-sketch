@@ -34,7 +34,7 @@ final class DraggablePoint extends AbstractPoint implements Drawable {
     @Override
     public void draw(PApplet p) {
         p.fill(255);
-        p.ellipse(x, y, radius, radius);
+        p.ellipse(x(), y(), radius, radius);
         if (inRange.apply(this)) {
             radius = sin(radians(angle)) * MAX_RADIUS;
             angle += 5;
